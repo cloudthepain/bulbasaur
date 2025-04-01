@@ -9,15 +9,15 @@ fn main() {
     let mut ip_address = String::new();
 
     io::stdin().read_line(&mut ip_address).expect("Failed to read line");
-    valid_ip(&ip_address);
+    valid_ip(ip_address.as_str());
 }
 
-fn valid_ip(ip_value: &String)
+fn valid_ip(ip_value: &str)
 {
 
     let input_text = ip_value;
-
-    if(input_text.len() >= 17)
+    
+    if(input_text.len() > 16)
     {
         panic!("Too Long!")
     }

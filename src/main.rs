@@ -1,36 +1,32 @@
 //cargo new, run build, & check
 // mut allows variable to be mutable
-use regex::Regex;
+use std::process::Command;
 use std::io;
-
 
 fn main() {
 
-    let mut ip_address = String::new();
+    let mut ip_addr = String::new();
 
-    io::stdin().read_line(&mut ip_address).expect("Failed to read line");
-    valid_ip(ip_address.as_str());
+    io::stdin()
+        .read_line(&mut ip_addr)
+        .expect("invalid");
+    let ip_addr = ip_addr.trim();
+
+    ping(ip_addr);
 }
 
-fn valid_ip(ip_value: &str)
+fn ping(ip_address_to_ping: &str)
 {
+    let x = "-c 4";
+    let status = Command::new("ping")
+            .args([ip_address_to_ping, x])
+            .spawn()
+            .expect("failed")
+            .wait()
+            .expect("failed during wait");
 
-    let input_text = ip_value;
-    
-    if(input_text.len() > 16)
+    if status.success()
     {
-        panic!("Too Long!")
+        println!("Completed Successfully Pokemon Master")
     }
-
-    let name_regex = Regex::new(r#"(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}"#);
-
-    if name_regex.is_err()
-    {
-        panic!("Error in regex pattern!");
-    };
- 
-    let match_result: bool = name_regex.unwrap().is_match(input_text);
-
-    println!("{match_result}");
-
 }

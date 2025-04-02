@@ -5,6 +5,10 @@ use std::io;
 
 fn main() {
 
+    const HOST_OS: &str = std::env::consts::OS;
+
+    println!("{}",HOST_OS);
+
     let mut ip_addr = String::new();
 
     io::stdin()

@@ -51,13 +51,11 @@ fn get_terminal_controllers()
 {
     let status = Command::new("bash")
     .arg("--version")
-    .spawn()
-    .expect("failed")
-    .wait()
-    .expect("failed during wait");
+    .status()
+    .expect("Failed to locate bash");
 
     if status.success()
     {
-        println!("We're in")
+        println!("Bash present");
     }
 }

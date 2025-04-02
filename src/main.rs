@@ -9,18 +9,30 @@ fn main() {
 
     println!("{}",HOST_OS);
 
-    let mut ip_addr = String::new();
 
+    get_terminal_controllers();
+
+
+    let ip_addr = getuserinput();
+
+    ping(&ip_addr);
+}
+
+fn getuserinput() -> String
+{
+    let mut value: String = String::new();
     io::stdin()
-        .read_line(&mut ip_addr)
+        .read_line(&mut value)
         .expect("invalid");
-    let ip_addr = ip_addr.trim();
 
-    ping(ip_addr);
+    let temp_trim_val= value.trim();
+    let trim_value = temp_trim_val.to_string();
+    return trim_value;
 }
 
 fn ping(ip_address_to_ping: &str)
 {
+
     let x = "-c 4";
     let status = Command::new("ping")
             .args([ip_address_to_ping, x])
@@ -32,5 +44,20 @@ fn ping(ip_address_to_ping: &str)
     if status.success()
     {
         println!("Completed Successfully Pokemon Master")
+    }
+}
+
+fn get_terminal_controllers()
+{
+    let status = Command::new("bash")
+    .arg("--version")
+    .spawn()
+    .expect("failed")
+    .wait()
+    .expect("failed during wait");
+
+    if status.success()
+    {
+        println!("We're in")
     }
 }
